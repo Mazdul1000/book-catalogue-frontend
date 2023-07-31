@@ -3,13 +3,13 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface IFilter {
     searchTerm: string | undefined;
-    publicationYear: number | null;
+    publicationDate: number | null;
     genre: string | null; 
 }
 
 const initialState: IFilter = {
     searchTerm: "",
-    publicationYear: null,
+    publicationDate: null,
     genre: null
 }
 
@@ -24,7 +24,7 @@ export const filterSlice = createSlice({
             state.genre = action.payload
         },
         togglePublicationYear: ( state, action:PayloadAction<number | null>) => {
-            state.publicationYear = action.payload;
+            state.publicationDate = action.payload;
         }
     }
 })

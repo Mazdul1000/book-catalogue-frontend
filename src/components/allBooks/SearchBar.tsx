@@ -4,12 +4,13 @@ import { RxCross2 } from 'react-icons/rx';
 import Select from 'react-select';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { insertSearchTerm, toggleGenre, togglePublicationYear } from '../../redux/features/filter/filterSlice';
+import { api } from '../../redux/api/apiSlice';
 
 const SearchBar = ({}) => {
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
 
-  const {searchTerm, genre, publicationYear} = useAppSelector( state => state.filter)
+  const {searchTerm, genre, publicationDate} = useAppSelector( state => state.filter)
 
   const handleGenreChange = (selectedOption: { value: any; }| null) => {
      dispatch(toggleGenre(selectedOption?.value || null))
@@ -21,15 +22,15 @@ const SearchBar = ({}) => {
 
   const handleSearch = (event: React.FormEvent) => {
     event.preventDefault();
-
-
-    console.log(event.target);
-    console.log('Genre:', genre);
-    console.log('Publication Year:', publicationYear);
+   const filter = {
+    searchTerm,
+    genre,
+    publicationDate
+   }
+   console.log(filter);
   };
 
   const handleSearchTermChange = (event: { preventDefault: () => void; target: { value: string | undefined; }; })=> {
-    event.preventDefault();
     dispatch(insertSearchTerm(event.target.value))
   }
 
@@ -97,7 +98,7 @@ const SearchBar = ({}) => {
           <Select
             options={yearOptions}
             isClearable
-            value={yearOptions.find((option) => option.value === publicationYear) || null}
+            value={yearOptions.find((option) => option.value === publicationDate) || null}
             onChange={handlePublicationYearChange}
             placeholder="Select Publication Year"
             className="rounded-lg px-4 py-2 basic-single"

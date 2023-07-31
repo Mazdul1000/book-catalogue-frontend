@@ -5,8 +5,8 @@ import Footer from '../../layouts/Footer';
 import { IBook } from '../home/bookGrid/BookGrid';
 
 const BookList = () => {
-
-    const {data, isLoading} = useGetBooksQuery(undefined);
+    const filter = useAppSelector( state => state.filter)
+    const {data, isLoading} = useGetBooksQuery(filter);
 
     if(isLoading){
         return <div>Loading...</div>

@@ -7,7 +7,18 @@ export const api = createApi({
   }),
   endpoints: (builder) => ({
     getBooks: builder.query({
-      query: () => '/books',
+      query: (filter) => {   
+        const queryParams = [];
+        for (const property in filter) {
+          queryParams.push(`${property}=${encodeURIComponent(filter[property])}`);
+        }
+        const queryString = queryParams.join('&');
+    
+        return {
+          url: `/books?${queryString}`,
+          method: 'GET'
+        };
+      },
     }),
     getSingleBook: builder.query({
       query: (id) => `/books/${id}`,
