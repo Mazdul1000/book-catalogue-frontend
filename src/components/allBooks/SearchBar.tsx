@@ -52,8 +52,20 @@ const SearchBar = ({}) => {
 
   const genreOptions = [
     { value: 'Fiction', label: 'Fiction' },
-    { value: 'non-fiction', label: 'Non-Fiction' },
-    // Add more genre options as needed
+    { value: 'Mystery', label: 'Mystery' },
+    { value: 'Romance', label: 'Romance' },
+    { value: 'Science Fiction', label: 'Science Fiction' },
+    { value: 'Fantasy', label: 'Fantasy' },
+    { value: 'Thriller', label: 'Thriller' },
+    { value: 'Horror', label: 'Horror' },
+    { value: 'Historical Fiction', label: 'Historical Fiction' },
+    { value: 'Adventure', label: 'Adventure' },
+    { value: 'Crime', label: 'Crime' },
+    { value: 'Dystopian', label: 'Dystopian' },
+    { value: 'Young Adult', label: 'Young Adult (YA)' },
+    { value: 'Biography', label: 'Biography' },
+    { value: 'Non-Fiction', label: 'Non-Fiction' },
+    { value: 'Self-Help', label: 'Self-Help' },
   ];
 
   return (

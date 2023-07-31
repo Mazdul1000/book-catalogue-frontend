@@ -23,7 +23,14 @@ export const api = createApi({
     getSingleBook: builder.query({
       query: (id) => `/books/${id}`,
     }),
+    addNewBook: builder.mutation({
+        query: (data) => ({
+            url: '/books/add-book',
+            method: 'POST',
+            body: data
+        })
+    })
   }),
 });
 
-export const { useGetBooksQuery, useGetSingleBookQuery } = api;
+export const { useGetBooksQuery, useGetSingleBookQuery, useAddNewBookMutation } = api;
