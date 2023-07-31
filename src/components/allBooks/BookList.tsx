@@ -6,7 +6,14 @@ import { IBook } from '../home/bookGrid/BookGrid';
 
 const BookList = () => {
     const filter = useAppSelector( state => state.filter)
-    const {data, isLoading} = useGetBooksQuery(filter);
+
+  const truthyFilter = {
+    ...(filter.searchTerm && { searchTerm: filter.searchTerm }),
+    ...(filter.genre && { genre: filter.genre }),
+    ...(filter.publicationDate && { publicationDate: filter.publicationDate }),
+  };
+
+    const {data, isLoading} = useGetBooksQuery(truthyFilter);
 
     if(isLoading){
         return <div>Loading...</div>
@@ -56,7 +63,9 @@ const BookList = () => {
             ))}
           </tbody>
         </table>
+        <div className='sticky bottom-0 w-full'>
         <Footer />
+        </div>
       </div>
     );
 };

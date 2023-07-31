@@ -2,8 +2,9 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="bg-white flex items-center justify-between py-4 text-center px-16">
-      <p className="text-gray-500 text-sm">
+    <footer className="bg-white py-4 text-center px-16 w-full">
+     <div className='flex items-center justify-between'>
+     <p className="text-gray-500 text-sm">
         &copy; {new Date().getFullYear()} BookQuest. All rights reserved.
       </p>
       <div className="mt-2 flex justify-center space-x-4">
@@ -20,6 +21,7 @@ const Footer = () => {
           DMCA
         </a>
       </div>
+     </div>
     </footer>
   );
 };

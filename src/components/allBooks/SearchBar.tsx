@@ -22,12 +22,15 @@ const SearchBar = ({}) => {
 
   const handleSearch = (event: React.FormEvent) => {
     event.preventDefault();
-   const filter = {
-    searchTerm,
-    genre,
-    publicationDate
-   }
-   console.log(filter);
+
+    const truthyFilter = {
+        ...(searchTerm && { searchTerm: searchTerm }),
+        ...(genre && { genre: genre }),
+        ...(publicationDate && { publicationDate: publicationDate }),
+      };
+   console.log(truthyFilter);
+
+
   };
 
   const handleSearchTermChange = (event: { preventDefault: () => void; target: { value: string | undefined; }; })=> {
@@ -48,19 +51,20 @@ const SearchBar = ({}) => {
   }));
 
   const genreOptions = [
-    { value: 'fiction', label: 'Fiction' },
+    { value: 'Fiction', label: 'Fiction' },
     { value: 'non-fiction', label: 'Non-Fiction' },
     // Add more genre options as needed
   ];
 
   return (
-    <div className="w-full flex flex-col items-center justify-center pt-10">
+    <div className="w-full flex flex-col items-center justify-center pt-6">
       {/* <AddBookmark open={open} setOpen={setOpen}  /> */}
-      <h2 className="text-4xl font-bold">Find a book</h2>
-      <div className="w-full flex justify-center items-center mt-5">
+      <h2 className="text-2xl text-gray-600 font-bold">Find books</h2>
+      <div className='w-full flex items-center justify-center px-10'>
+      <div className="w-1/2 flex justify-start items-center mt-2">
         <form
           onSubmit={handleSearch}
-          className="w-[60%] border-2 border-primary-main rounded-full px-8 flex justify-between items-center h-14 text-sm"
+          className="w-[60%] border-2 border-primary-main rounded-full px-8 flex justify-between items-center h-10 text-sm"
         >
           <input
             type="text"
@@ -76,17 +80,8 @@ const SearchBar = ({}) => {
             <RxCross2 className="h-6 w-6 text-black" />
           </button>
         </form>
-        <button
-          className="ml-3 p-2 bg-primary-main text-slate rounded-lg"
-          onClick={() => setOpen(!open)}
-        >
-          Add
-        </button>
       </div>
-      <div className="flex items-center justify-start mt-4">
-        <div>
-            <p>Search Options:</p>
-        </div>
+      <div className="w-1/2 flex items-center justify-end mt-4">
           <Select
             options={genreOptions}
             isClearable
@@ -110,6 +105,7 @@ const SearchBar = ({}) => {
             }}
           />
 
+      </div>
       </div>
     </div>
   );
