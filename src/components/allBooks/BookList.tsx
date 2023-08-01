@@ -3,6 +3,7 @@ import { useAppSelector } from '../../redux/hook';
 import { useGetBooksQuery } from '../../redux/api/apiSlice';
 import Footer from '../../layouts/Footer';
 import { IBook } from '../home/bookGrid/BookGrid';
+import { Link } from 'react-router-dom';
 
 const BookList = () => {
     const filter = useAppSelector( state => state.filter)
@@ -48,7 +49,7 @@ const BookList = () => {
                   <img src={book.thumbnail} alt={book.title} className="h-full w-10" />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">{book.title}</div>
+                  <div className="text-sm font-medium text-gray-900"><Link to={`/books/${book._id}`}>{book.title}</Link></div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-500">{book.author}</div>

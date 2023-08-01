@@ -7,6 +7,7 @@ import AddBook from '../pages/AddBook';
 import SignUp from '../pages/SignUp';
 import Login from '../pages/Login';
 import PrivateRoute from './PrivateRoute';
+import BookDetails from '../pages/BookDetails';
 
 const routes = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const routes = createBrowserRouter([
         path:'/add-book',
         element: <PrivateRoute><AddBook /></PrivateRoute>
       },
+      {
+        path: '/books/:bookId',
+        element: <BookDetails />
+      }
     ],
   },
   {
