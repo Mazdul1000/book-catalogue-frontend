@@ -27,7 +27,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="bg-green-500 p-4">
+    <nav className="bg-indigo-600 p-4">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center">
          <Link to={'/'}>
@@ -46,24 +46,22 @@ const Navbar = () => {
             <GiBookshelf className="inline mr-2" />
             <span>All Books</span>
           </Link>
-         { !user.email && <>
-         <Link to={'/login'}>
+         { !user.email && <div className='flex gap-5'>
+         <Link to={'/signup'}>
           <button
-          type="submit"
-          className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-500  hover:bg-indigo-100 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Sign Up
         </button>
           </Link>
          <Link to={'/login'}>
           <button
-          type="submit"
-          className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-500 hover:bg-indigo-100 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Login
         </button>
           </Link>
-         </>}
+         </div>}
        {user.email &&   <div>
           <DropdownMenu>
                   <DropdownMenuTrigger className="outline-none">

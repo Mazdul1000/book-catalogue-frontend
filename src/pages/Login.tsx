@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
-import { useAppDispatch } from '../redux/hook';
+import { useAppDispatch, useAppSelector } from '../redux/hook';
 import { loginUser } from '../redux/features/user/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ 
     email: '',
     password: '',
   });
+
+  const { user, isLoading} = useAppSelector(state => state.user);
+
+  useEffect(()=> {
+    if(!isLoading && user.email){
+      navigate('/')
+    }
+  }, [user.email, isLoading])
 
   const handleChange = (event: { target: { name: any; value: any; }; }) => {
     const { name, value } = event.target;

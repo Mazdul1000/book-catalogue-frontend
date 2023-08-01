@@ -52,7 +52,7 @@ const BookGrid = () => {
             <img
               src={book.thumbnail}
               alt={book.title}
-              className="w-full h-30 object-cover rounded-lg shadow-md"
+              className="w-full h-[100%] object-cover rounded-lg shadow-md"
             />
           </div>
           <div className="w-2/3 p-4 flex flex-col">

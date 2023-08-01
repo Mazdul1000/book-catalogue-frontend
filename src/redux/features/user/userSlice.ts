@@ -13,6 +13,7 @@ interface IUserState {
     username?: string;
     wishlist?: string[];
     readingList?: string[];
+    _id?: string;
 
   }
   isLoading: boolean

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { useAppDispatch } from '../redux/hook';
+import React, { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../redux/hook';
 import { useAddNewBookMutation } from '../redux/api/apiSlice';
+import { useNavigate } from 'react-router-dom';
 
 const AddBook = () => {
-
+    const { user} = useAppSelector( state => state.user);
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
   const [formData, setFormData] = useState({
     title: '',
@@ -13,9 +15,16 @@ const AddBook = () => {
     thumbnail: '',
     description: '',
     publicationDate: '',
+    addedBy: user.userId
   });
 
-  const [ addBook, options] = useAddNewBookMutation();
+  const [ addBook, {isSuccess, isLoading}] = useAddNewBookMutation();
+
+  useEffect(() => {
+     if(!isLoading && isSuccess){
+      navigate('/')
+     }
+  },[isSuccess, isLoading])
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
@@ -33,6 +42,10 @@ const AddBook = () => {
     addBook(updatedFormData)
   
   };
+
+  if(isLoading){
+    return <div>Loading...</div>
+  }
 
   return (
     <div className="p-8 overflow-hidden bg-white shadow-cardShadow rounded-md max-w-xl mx-auto">

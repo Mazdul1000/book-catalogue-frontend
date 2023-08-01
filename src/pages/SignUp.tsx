@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
-import { useAppDispatch } from '../redux/hook';
+import { useAppDispatch, useAppSelector } from '../redux/hook';
 import { createUser } from '../redux/features/user/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const dispatch = useAppDispatch();
-  const [formData, setFormData] = useState({
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
+  const { user, isLoading} = useAppSelector(state => state.user);
+  useEffect(()=> {
+    if(!isLoading && user.email){
+      navigate('/')
+    }
+  }, [user.email, isLoading])
 
   const handleChange = (event: { target: { name: any; value: any; }; }) => {
     const { name, value } = event.target;

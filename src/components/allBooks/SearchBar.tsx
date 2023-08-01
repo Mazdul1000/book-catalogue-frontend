@@ -5,6 +5,7 @@ import Select from 'react-select';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { insertSearchTerm, toggleGenre, togglePublicationYear } from '../../redux/features/filter/filterSlice';
 import { api } from '../../redux/api/apiSlice';
+import { Link } from 'react-router-dom';
 
 const SearchBar = ({}) => {
   const [open, setOpen] = useState(false);
@@ -116,6 +117,8 @@ const SearchBar = ({}) => {
               }),
             }}
           />
+
+          <Link to={'/add-book'} className=" py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add Book</Link>
 
       </div>
       </div>
