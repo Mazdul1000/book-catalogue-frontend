@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
+import { useAppDispatch } from '../redux/hook';
+import { createUser } from '../redux/features/user/userSlice';
 
 const SignUp = () => {
+    const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -18,6 +21,13 @@ const SignUp = () => {
     event.preventDefault();
     // TODO: Add signup logic here using the formData state
     console.log(formData);
+    if( formData.password === formData.confirmPassword){
+        dispatch(createUser({
+            email: formData.email,
+            username: formData.username,
+            password: formData.password
+        }))
+    }
   };
 
   const handleGoogleLogin = () => {
