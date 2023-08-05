@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { FaBook, FaHome, FaInfoCircle,  FaBars, FaTimes } from 'react-icons/fa';
 import { GiBookshelf } from 'react-icons/gi';
+import { PiClipboardTextBold } from 'react-icons/pi';
+import { AiOutlineRead } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
@@ -67,8 +69,12 @@ const Navbar = () => {
          </div>}
        {user?.email &&  <>
         <Link to="/my-wishlist" className="text-white mx-4 flex items-center">
-            <GiBookshelf className="inline mr-2" />
+            <PiClipboardTextBold className="inline mr-2" />
             <span>Wishlist</span>
+          </Link>
+        <Link to="/my-readlist" className="text-white mx-4 flex items-center">
+            <AiOutlineRead className="inline mr-2" />
+            <span>Reading</span>
           </Link>
         <div>
           <DropdownMenu>
