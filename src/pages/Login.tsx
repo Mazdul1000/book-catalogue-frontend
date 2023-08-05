@@ -3,6 +3,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { useAppDispatch, useAppSelector } from '../redux/hook';
 import { loginUser } from '../redux/features/user/userSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Loader from '../components/ui/Loader';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -43,10 +44,15 @@ const Login = () => {
 
   };
 
+
   const handleGoogleLogin = () => {
     // TODO: Implement Google login logic
     console.log('Google login clicked');
   };
+
+if(isLoading){
+  return <Loader />;
+}
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">

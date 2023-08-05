@@ -4,19 +4,24 @@ import { useGetUserWishlistQuery } from '../redux/features/user/userApi';
 import { IBook } from '../components/home/bookGrid/BookGrid';
 import Footer from '../layouts/Footer';
 import { Link } from 'react-router-dom';
+import Loader from '../components/ui/Loader';
 
 const Wishlist = () => {
     const {user} = useAppSelector( state => state.user);
     const { data, isLoading} = useGetUserWishlistQuery(user.userId) 
 
     if(isLoading){
-        return <div>Loading...</div>
+        return <Loader />
     }
 
     console.log(data)
 
     return (
-           <div className="flex flex-col  overflow-auto px-10">
+          <div>
+      <div className='py-10'>
+        <h1 className='text-3xl text-center font-bold text-gray-700'>My Wishlist</h1>
+      </div>
+<div className="flex flex-col  overflow-auto px-10">
         <table className="min-w-full divide-y divide-gray-200 flex-grow">
           <thead className="bg-gray-50 sticky top-0">
             <tr>
@@ -59,10 +64,11 @@ const Wishlist = () => {
             ))}
           </tbody>
         </table>
-        <div className='sticky bottom-0 w-full'>
+        <div className='fixed bottom-0 w-full'>
         <Footer />
         </div>
       </div>
+          </div>
     );
 };
 
