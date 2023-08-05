@@ -4,8 +4,8 @@ import { BsBank2 } from 'react-icons/bs';
 import { SlCalender } from 'react-icons/sl';
 import { BiBookBookmark } from 'react-icons/bi';
 import { useAppDispatch, useAppSelector } from '../redux/hook';
-import { addWishlist } from '../redux/features/user/userSlice';
 import { useGetSingleBookQuery } from '../redux/features/book/bookApi';
+import { addToReadList, addWishlist } from '../redux/features/user/userThunk';
 
 const BookDetails = () => {
     const dispatch = useAppDispatch();
@@ -21,27 +21,48 @@ const BookDetails = () => {
 
   const bookDetails = data.data;
 
+  // add to wishlist
   const handleAddToWishlist = () => {
     if (!user.email) {
       return navigate('/login');
   }
 
-  console.log("hello world");
-
-  const bookId = bookDetails._id;
+  const bookId:string = bookDetails._id;
 
   if (user.wishlist && user.wishlist.includes(bookId)) {
-      // Book is already in the wishlist, so remove it
+      // If book is already in wishlist
       const updatedWishlist = user.wishlist.filter(id => id !== bookId);
       console.log("Book removed from wishlist");
       console.log(updatedWishlist);
       dispatch(addWishlist({userId: user._id!, userInfo: {wishlist: updatedWishlist}}))
   } else {
-      // Book is not in the wishlist, so add it
+      // if book is not in the wishlist
       const updatedWishlist = [...(user.wishlist ?? []), bookId];
       console.log("Book added to wishlist");
       dispatch(addWishlist({userId: user._id!, userInfo: {wishlist: updatedWishlist}}))
   }
+  }
+
+  // add to Readlist
+  const handleAddToReadlist = () => {
+    if (!user.email) {
+      return navigate('/login');
+  }
+
+  const bookId:string = bookDetails._id;
+
+  if (user.readingList && user.readingList.includes(bookId)) {
+    // Book is already in the readlist
+    const updatedReadlist = user.readingList.filter(id => id !== bookId);
+    console.log("Book removed from wishlist");
+    console.log(updatedReadlist);
+    dispatch(addToReadList({userId: user._id!, userInfo: {readingList: updatedReadlist}}))
+} else {
+    // if book is not in the readlist
+    const updatedReadlist = [...(user.readingList ?? []), bookId];
+    console.log("Book added to wishlist");
+    dispatch(addToReadList({userId: user._id!, userInfo: {readingList: updatedReadlist}}))
+}
   }
 
   return (
@@ -49,8 +70,8 @@ const BookDetails = () => {
     <div className='w-1/3 h-100'>
         <div className='w-full'><img className='w-full h-[35rem]' src={bookDetails.thumbnail} alt="" /></div>
         <div className='w-full flex justify-center gap-5 pt-3'>
-        <button className="px-4 py-2 bg-blue-500 text-white rounded-md" onClick={handleAddToWishlist}>Add to Wishlist</button>
-              <button className="px-4 py-2 bg-green-500 text-white rounded-md">Add to Reading List</button>
+        <button className="px-4 py-2 bg-blue-500 text-white rounded-md" onClick={handleAddToWishlist}> {user.wishlist?.includes(bookDetails._id) ? "Remove from wishlist" : "Add to wishlist"}</button>
+              <button className="px-4 py-2 bg-green-500 text-white rounded-md" onClick={handleAddToReadlist}>{user.readingList?.includes(bookDetails._id) ? "Remove from Readlist" : "Add to Readlist"}</button>
         </div>
     </div>
     <div className='w-2/3 flex flex-col justify-between h-[35rem] px-5'>

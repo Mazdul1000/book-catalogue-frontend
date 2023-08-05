@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { useAppDispatch, useAppSelector } from '../redux/hook';
-import { loginUser } from '../redux/features/user/userSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Loader from '../components/ui/Loader';
+import { loginUser } from '../redux/features/user/userThunk';
 
 const Login = () => {
   const dispatch = useAppDispatch();

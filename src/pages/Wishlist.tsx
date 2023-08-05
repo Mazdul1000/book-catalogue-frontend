@@ -8,7 +8,9 @@ import Loader from '../components/ui/Loader';
 
 const Wishlist = () => {
     const {user} = useAppSelector( state => state.user);
-    const { data, isLoading} = useGetUserWishlistQuery(user.userId) 
+    const { data, isLoading} = useGetUserWishlistQuery(user.userId, {
+        refetchOnMountOrArgChange: true,
+    }) 
 
     if(isLoading){
         return <Loader />

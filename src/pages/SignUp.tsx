@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { useAppDispatch, useAppSelector } from '../redux/hook';
-import { createUser } from '../redux/features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { createUser } from '../redux/features/user/userThunk';
 
 const SignUp = () => {
     const dispatch = useAppDispatch();

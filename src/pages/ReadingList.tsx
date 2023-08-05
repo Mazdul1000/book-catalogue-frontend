@@ -9,7 +9,9 @@ import empty_svg from '../assets/empty.svg'
 
 const ReadingList = () => {
     const {user} = useAppSelector( state => state.user);
-    const { data, isLoading} = useGetUserReadingListQuery(user.userId) 
+    const { data, isLoading} = useGetUserReadingListQuery(user.userId, {
+        refetchOnMountOrArgChange: true,
+    }) 
 
     if(isLoading){
         return <Loader />
