@@ -5,10 +5,9 @@ import Footer from '../layouts/Footer';
 
 const AllBooks = () => {
     return (
-        <div className='flex flex-col overflow-hidden' style={{ height: `calc(100vh - ${60}px)` }}>
+        <div className='flex flex-col overflow-hidden' style={{ height: `calc(100vh - ${78}px)` }}>
             <SearchBar />
             <BookList />
-            
         </div>
     );
 };

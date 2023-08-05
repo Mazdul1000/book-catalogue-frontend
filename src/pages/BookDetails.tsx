@@ -1,12 +1,16 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-import { useGetSingleBookQuery } from '../redux/api/apiSlice';
+import { useNavigate, useParams } from 'react-router-dom';
 import { BsBank2 } from 'react-icons/bs';
 import { SlCalender } from 'react-icons/sl';
 import { BiBookBookmark } from 'react-icons/bi';
+import { useAppDispatch, useAppSelector } from '../redux/hook';
+import { addWishlist } from '../redux/features/user/userSlice';
+import { useGetSingleBookQuery } from '../redux/features/book/bookApi';
 
 const BookDetails = () => {
-
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const { user } = useAppSelector(state => state.user)
     const { bookId } = useParams();
 
     const { data, isLoading} = useGetSingleBookQuery(bookId)
@@ -17,12 +21,35 @@ const BookDetails = () => {
 
   const bookDetails = data.data;
 
+  const handleAddToWishlist = () => {
+    if (!user.email) {
+      return navigate('/login');
+  }
+
+  console.log("hello world");
+
+  const bookId = bookDetails._id;
+
+  if (user.wishlist && user.wishlist.includes(bookId)) {
+      // Book is already in the wishlist, so remove it
+      const updatedWishlist = user.wishlist.filter(id => id !== bookId);
+      console.log("Book removed from wishlist");
+      console.log(updatedWishlist);
+      dispatch(addWishlist({userId: user._id!, userInfo: {wishlist: updatedWishlist}}))
+  } else {
+      // Book is not in the wishlist, so add it
+      const updatedWishlist = [...(user.wishlist ?? []), bookId];
+      console.log("Book added to wishlist");
+      dispatch(addWishlist({userId: user._id!, userInfo: {wishlist: updatedWishlist}}))
+  }
+  }
+
   return (
-   <div className='w-full  flex justify-between px-20 pt-12' style={{ height: `calc(100vh - ${80}px)`}}>
+   <div className='w-full  flex justify-between px-20 pt-12' style={{ height: `calc(100vh - ${78}px)`}}>
     <div className='w-1/3 h-100'>
         <div className='w-full'><img className='w-full h-[35rem]' src={bookDetails.thumbnail} alt="" /></div>
         <div className='w-full flex justify-center gap-5 pt-3'>
-        <button className="px-4 py-2 bg-blue-500 text-white rounded-md">Add to Wishlist</button>
+        <button className="px-4 py-2 bg-blue-500 text-white rounded-md" onClick={handleAddToWishlist}>Add to Wishlist</button>
               <button className="px-4 py-2 bg-green-500 text-white rounded-md">Add to Reading List</button>
         </div>
     </div>

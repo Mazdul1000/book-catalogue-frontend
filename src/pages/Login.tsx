@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { useAppDispatch, useAppSelector } from '../redux/hook';
 import { loginUser } from '../redux/features/user/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const [formData, setFormData] = useState({ 
     email: '',
     password: '',
@@ -14,11 +15,19 @@ const Login = () => {
 
   const { user, isLoading} = useAppSelector(state => state.user);
 
-  useEffect(()=> {
-    if(!isLoading && user.email){
-      navigate('/')
+  
+
+  useEffect(() => {
+    if (!isLoading && user.email) {
+      const { state } = location;
+      if (state && state.path) {
+        console.log("got here")
+        navigate(state.path);
+      }else{
+        navigate('/')
+      }
     }
-  }, [user.email, isLoading])
+  }, [user.email, isLoading, location, navigate]);
 
   const handleChange = (event: { target: { name: any; value: any; }; }) => {
     const { name, value } = event.target;

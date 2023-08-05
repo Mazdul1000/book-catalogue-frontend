@@ -14,8 +14,7 @@ import { logout } from '../redux/features/user/userSlice';
 const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const dispatch = useAppDispatch()
-  const { user } = useAppSelector( state => state.user)
-  console.log(user)
+  const { user, isLoading } = useAppSelector( state => state.user)
   const toggleMenu = () => {
     setMenuOpen((prevState) => !prevState);
   };
@@ -24,6 +23,10 @@ const Navbar = () => {
     signOut(auth).then(() => {
       dispatch(logout());
     })
+  }
+
+  if(isLoading){
+    return <div>Loading...</div>
   }
 
   return (
@@ -62,7 +65,12 @@ const Navbar = () => {
         </button>
           </Link>
          </div>}
-       {user.email &&   <div>
+       {user?.email &&  <>
+        <Link to="/my-wishlist" className="text-white mx-4 flex items-center">
+            <GiBookshelf className="inline mr-2" />
+            <span>Wishlist</span>
+          </Link>
+        <div>
           <DropdownMenu>
                   <DropdownMenuTrigger className="outline-none">
                     <Avatar>
@@ -81,7 +89,8 @@ const Navbar = () => {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-          </div>}
+          </div>
+       </> }
         </div>
         <div className="md:hidden flex items-center">
           <button

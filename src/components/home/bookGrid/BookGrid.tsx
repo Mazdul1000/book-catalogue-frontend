@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { Card } from '../../ui/card';
-import { useGetBooksQuery } from '../../../redux/api/apiSlice';
 import { format } from 'date-fns';
+import { useGetBooksQuery } from '../../../redux/features/book/bookApi';
 
 
 export interface IBook {
@@ -21,7 +21,6 @@ export interface IBook {
 const BookGrid = () => {
     const [sortedBooks, setSortedBooks] = useState<IBook[]>([]);
   const { data, isLoading } = useGetBooksQuery(undefined);
-  console.log(data);
 
   useEffect(() => {
     if (!isLoading && data.data.length !== 0) {

@@ -64,6 +64,7 @@ export const createUser = createAsyncThunk(
         },
       )
 
+
       if (!userInfoResponse.ok) {
         throw new Error("Failed to create user information")
       }
@@ -92,6 +93,8 @@ export const loginUser = createAsyncThunk(
       )
 
       const userInfo = await userInfoResponse.json()
+
+      console.log(userInfo)
       // Return both user and userInfo
       return userInfo.data
     } catch (error) {
@@ -108,9 +111,38 @@ export const getUserData = createAsyncThunk(
     )
 
     const userInfo = await userInfoResponse.json()
-    return userInfo.data[0]
+    if(userInfo.data.length === 0){
+      return {
+        email: null
+      }
+    }
+    return userInfo.data
   }
   )
+
+export const addWishlist = createAsyncThunk(
+  "user/addWishlist",
+  async (data:{userId: string, userInfo: object}) => {
+  console.log(data)
+   try{
+    const userInfoResponse = await fetch(
+      `http://localhost:5002/api/v1/users/${data.userId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data.userInfo),
+      },
+    )
+    const userInfo = await userInfoResponse.json();
+
+    return userInfo.data
+   }catch(error){
+
+   }
+  }
+)  
 
 const userSlice = createSlice({
   name: "user",
@@ -171,6 +203,20 @@ const userSlice = createSlice({
         state.isLoading = false
         state.isError = true
         state.user.email = null
+        state.error = action.error.message!
+      })
+      .addCase(addWishlist.pending, (state) => {
+        state.isLoading = true
+        state.isError = false
+        state.error = null
+      })
+      .addCase(addWishlist.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.user = action.payload
+      })
+      .addCase(addWishlist.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
         state.error = action.error.message!
       })
   },

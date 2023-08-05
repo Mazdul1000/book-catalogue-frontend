@@ -1,27 +1,22 @@
 import React from 'react';
-import { useAppSelector } from '../../redux/hook';
-import Footer from '../../layouts/Footer';
-import { IBook } from '../home/bookGrid/BookGrid';
+import { useAppSelector } from '../redux/hook';
+import { useGetUserWishlistQuery } from '../redux/features/user/userApi';
+import { IBook } from '../components/home/bookGrid/BookGrid';
+import Footer from '../layouts/Footer';
 import { Link } from 'react-router-dom';
-import { useGetBooksQuery } from '../../redux/features/book/bookApi';
 
-const BookList = () => {
-    const filter = useAppSelector( state => state.filter)
-
-  const truthyFilter = {
-    ...(filter.searchTerm && { searchTerm: filter.searchTerm }),
-    ...(filter.genre && { genre: filter.genre }),
-    ...(filter.publicationDate && { publicationDate: filter.publicationDate }),
-  };
-
-    const {data, isLoading} = useGetBooksQuery(truthyFilter);
+const Wishlist = () => {
+    const {user} = useAppSelector( state => state.user);
+    const { data, isLoading} = useGetUserWishlistQuery(user.userId) 
 
     if(isLoading){
         return <div>Loading...</div>
     }
 
+    console.log(data)
+
     return (
-        <div className="flex flex-col  overflow-auto px-10">
+           <div className="flex flex-col  overflow-auto px-10">
         <table className="min-w-full divide-y divide-gray-200 flex-grow">
           <thead className="bg-gray-50 sticky top-0">
             <tr>
@@ -43,7 +38,7 @@ const BookList = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200 overflow-y-auto">
-            {data.data.map((book:IBook) => (
+            {data.data.wishlist.map((book:IBook) => (
               <tr key={book._id}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <img src={book.thumbnail} alt={book.title} className="h-full w-10" />
@@ -71,4 +66,4 @@ const BookList = () => {
     );
 };
 
-export default BookList;
+export default Wishlist;
