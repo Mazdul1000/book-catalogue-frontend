@@ -33,6 +33,7 @@ export const createUser = createAsyncThunk(
               username: user.displayName,
               wishlist: [],
               readingList: [],
+              finished: [],
             }),
           },
         )
@@ -95,6 +96,28 @@ export const createUser = createAsyncThunk(
     "user/addWishlist",
     async (data:{userId: string, userInfo: object}) => {
     console.log(data)
+     try{
+      const userInfoResponse = await fetch(
+        `http://localhost:5002/api/v1/users/${data.userId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data.userInfo),
+        },
+      )
+      const userInfo = await userInfoResponse.json();
+  
+      return userInfo.data
+     }catch(error){
+  
+     }
+    }
+  )
+  export const toggleFinished = createAsyncThunk(
+    "user/toggleFinished",
+    async (data:{userId: string, userInfo: object}) => {
      try{
       const userInfoResponse = await fetch(
         `http://localhost:5002/api/v1/users/${data.userId}`,

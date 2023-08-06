@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { addToReadList, addWishlist, createUser, getUserData, loginUser } from "./userThunk";
+import { addToReadList, addWishlist, createUser, getUserData, loginUser, toggleFinished } from "./userThunk";
 
 interface IUserState {
   user: {
@@ -8,6 +8,7 @@ interface IUserState {
     username?: string;
     wishlist?: string[];
     readingList?: string[];
+    finished?: string[]; 
     _id?: string;
 
   }
@@ -114,6 +115,18 @@ const userSlice = createSlice({
         state.user = action.payload
       })
       .addCase(addToReadList.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.error = action.error.message!
+      })
+      .addCase(toggleFinished.pending, (state) => {
+        state.isError = false
+        state.error = null
+      })
+      .addCase(toggleFinished.fulfilled, (state, action) => {
+        state.user = action.payload
+      })
+      .addCase(toggleFinished.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.error = action.error.message!

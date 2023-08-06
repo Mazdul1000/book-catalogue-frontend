@@ -41,20 +41,17 @@ const BookDetails = () => {
     if (!user.email) {
       return navigate("/login")
     }
-
     const bookId: string = bookDetails._id
 
     if (user.wishlist && user.wishlist.includes(bookId)) {
       // If book is already in wishlist
-      const updatedWishlist = user.wishlist.filter((id) => id !== bookId)
-  
+      const updatedWishlist = user.wishlist.filter((id) => id !== bookId) 
       dispatch(
         addWishlist({
           userId: user._id!,
           userInfo: { wishlist: updatedWishlist },
         }),
       )
-
       toast({
         variant: 'destructive',
         description: 'Removed from wishlist',
@@ -70,7 +67,6 @@ const BookDetails = () => {
           userInfo: { wishlist: updatedWishlist },
         }),
       )
-
       toast({
         variant: 'success',
         description: 'Added to wishlist',

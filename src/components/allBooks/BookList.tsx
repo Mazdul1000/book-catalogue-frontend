@@ -52,7 +52,7 @@ const BookList = () => {
                   <img src={book.thumbnail} alt={book.title} className="h-full w-10" />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900"><Link to={`/books/${book._id}`}>{book.title}</Link></div>
+                  <div className="text-sm font-medium text-gray-900"><Link to={`/books/${book._id}`}>{book.title.length > 75 ? `${book.title.slice(0,75)}...`: book.title }</Link></div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-500">{book.author}</div>

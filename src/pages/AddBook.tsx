@@ -42,7 +42,7 @@ const AddBook = () => {
             title: "Book added successfully",
             duration: 2000
           })
-          navigate('/')
+          navigate('/books')
        }
 
    },[isSuccess, isError, isLoading])
