@@ -1,40 +1,25 @@
 import React, { useState } from 'react';
 import { Button } from './ui/button';
+import { useGetAllReiewsQuery } from '../redux/features/review/reviewApi';
+import { useParams } from 'react-router-dom';
+
+type IReview = {
+    _id: string;
+    user: {
+        username: string,
+        avatar: string,
+    },
+    bookId: string
+    message: string
+}
 
 const Reviews = () => {
-
-    const reviews = [
-        {
-          id: 1,
-          user: {
-            username: 'user1',
-            avatar: 'https://via.placeholder.com/50', // Replace with actual avatar URL
-          },
-          message: 'This book was amazing! Highly recommended.',
-        },
-        {
-          id: 2,
-          user: {
-            username: 'user2',
-            avatar: 'https://via.placeholder.com/50', // Replace with actual avatar URL
-          },
-          message: 'I enjoyed reading this book. Great plot and characters.',
-        },
-        {
-          id: 3,
-          user: {
-            username: 'user3',
-            avatar: 'https://via.placeholder.com/50', // Replace with actual avatar URL
-          },
-          message: 'Not my favorite book, but still a decent read.',
-        },
-        // Add more dummy reviews here
-      ];
-      
-
+    const { bookId} = useParams()
     const [newReview, setNewReview] = useState('');
 
-  
+    const { data, isLoading, isError} = useGetAllReiewsQuery(bookId);
+
+  console.log(data)
     const handleSubmitReview = async () => {
       if (newReview.trim() === '') {
         return;
@@ -45,6 +30,10 @@ const Reviews = () => {
       // Clear the textarea
       setNewReview('');
     };
+
+    if(isLoading){
+      return <div></div>
+    }
 
     return (
         <div className="mt-8 px-12">
@@ -70,8 +59,8 @@ const Reviews = () => {
         {/* List of reviews */}
         <div className="grid gap-4">
           {/* Mapping through reviews */}
-          {reviews.map((review) => (
-            <div key={review.id} className="flex w-1/2 shadow-[inset_-12px_-8px_40px_#46464620] bg-indigo-100 p-4 rounded-lg">
+          {data.data.map((review:IReview) => (
+            <div key={review._id} className="flex w-1/2 shadow-[inset_-12px_-8px_40px_#46464620] bg-indigo-100 p-4 rounded-lg">
             <div className="mr-4">
               {/* Assuming avatar image */}
               <img src={review.user.avatar} alt={review.user.username} className="w-12 h-12 rounded-full" />
