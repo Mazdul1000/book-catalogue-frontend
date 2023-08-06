@@ -12,6 +12,7 @@ import { useToast } from "../components/ui/use-toast"
 import Loader from "../components/ui/Loader"
 import { ScrollArea } from "../components/ui/scroll-area"
 import Reviews from "../components/Reviews"
+import Footer from "../layouts/Footer"
 
 const BookDetails = () => {
   const dispatch = useAppDispatch()
@@ -112,7 +113,8 @@ const BookDetails = () => {
   }
 
   return (
-    <div>
+      <>
+       <div>
        <div
       className="w-full  flex justify-between px-20 pt-12"
       style={{ height: `calc(100vh - ${78}px)` }}
@@ -188,6 +190,8 @@ const BookDetails = () => {
       <Reviews />
     </div>
     </div>
+    <Footer />
+      </>
    
   )
 }

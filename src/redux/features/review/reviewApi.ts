@@ -9,10 +9,10 @@ const reviewApi = api.injectEndpoints({
                 body: data
             })
         }),
-        getAllReiews: builder.query({
+        getAllReviews: builder.query({
             query: (bookId) => `reviews/${bookId}`
         })
     })
 })
 
-export const { useAddReviewMutation, useGetAllReiewsQuery} = reviewApi;
+export const { useAddReviewMutation, useGetAllReviewsQuery} = reviewApi;

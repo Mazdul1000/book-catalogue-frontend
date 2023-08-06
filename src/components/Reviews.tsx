@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from './ui/button';
-import { useGetAllReiewsQuery } from '../redux/features/review/reviewApi';
+import { useAddReviewMutation, useGetAllReviewsQuery } from '../redux/features/review/reviewApi';
 import { useParams } from 'react-router-dom';
+import { useAppSelector } from '../redux/hook';
 
 type IReview = {
     _id: string;
@@ -16,19 +17,31 @@ type IReview = {
 const Reviews = () => {
     const { bookId} = useParams()
     const [newReview, setNewReview] = useState('');
+    const { user} = useAppSelector( state => state.user);
+    const [ addReview, {isSuccess}] = useAddReviewMutation();
+    const { data, isLoading, isError, refetch} = useGetAllReviewsQuery(bookId);
 
-    const { data, isLoading, isError} = useGetAllReiewsQuery(bookId);
-
-  console.log(data)
-    const handleSubmitReview = async () => {
+  
+    const handleSubmitReview = () => {
       if (newReview.trim() === '') {
         return;
       }
+    const data = {
+      bookId,
+      user: {
+        username: user.username,
+        avatar: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
+      },
+      message: newReview
+    }
   
-      // Assuming addReviewMutation.mutateAsync is used to add a new review
-  
-      // Clear the textarea
+    addReview(data)
+    .unwrap()
+    .then(() => {
+      refetch();
       setNewReview('');
+    })
+    
     };
 
     if(isLoading){
@@ -36,7 +49,7 @@ const Reviews = () => {
     }
 
     return (
-        <div className="mt-8 px-12">
+        <div className="mt-8 p-12">
         <h2 className="text-xl font-semibold mb-4">Reviews</h2>
         {/* Add new review */}
         <div className="mb-4 flex justify-start items-center gap-3">
