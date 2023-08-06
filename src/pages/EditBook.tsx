@@ -56,7 +56,7 @@ useEffect(() => {
     if(!isLoading && isError){
         toast({
             variant: "destructive",
-            title: "Failed to delete book.",
+            title: "Failed to edit book.",
             description: error?.data?.message || "Something went wrong",
             duration: 2000
           })

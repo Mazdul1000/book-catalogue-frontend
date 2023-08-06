@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { BsBank2 } from "react-icons/bs"
 import { SlCalender } from "react-icons/sl"
@@ -7,22 +7,11 @@ import { FaEdit } from "react-icons/fa"
 import { useAppDispatch, useAppSelector } from "../redux/hook"
 import { useGetSingleBookQuery } from "../redux/features/book/bookApi"
 import { addToReadList, addWishlist } from "../redux/features/user/userThunk"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "../components/ui/alert-dialog"
-import { Button } from "../components/ui/button"
 import ConfirmModal from "../components/ConfirmModal"
-import { ToastAction } from "../components/ui/toast"
 import { useToast } from "../components/ui/use-toast"
 import Loader from "../components/ui/Loader"
+import { ScrollArea } from "../components/ui/scroll-area"
+import Reviews from "../components/Reviews"
 
 const BookDetails = () => {
   const dispatch = useAppDispatch()
@@ -30,6 +19,13 @@ const BookDetails = () => {
   const { user } = useAppSelector((state) => state.user)
   const { bookId } = useParams()
   const { toast } = useToast()
+  const reviewSectionRef = useRef(null); 
+  const scrollToReviews = () => {
+    reviewSectionRef.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  };
 
   const { data, isLoading } = useGetSingleBookQuery(bookId)
 
@@ -116,11 +112,12 @@ const BookDetails = () => {
   }
 
   return (
-    <div
+    <div>
+       <div
       className="w-full  flex justify-between px-20 pt-12"
       style={{ height: `calc(100vh - ${78}px)` }}
     >
-      <div className="w-1/3 h-100">
+      <div className="w-1/3">
         <div className="w-full">
           <img
             className="w-full h-[35rem]"
@@ -157,15 +154,21 @@ const BookDetails = () => {
           <p className="text-center font-bold text-gray-500 pt-2">
             By {bookDetails.author}
           </p>
-          <p className="pt-10 font-serif text-left">
-            {bookDetails.description}
-          </p>
+          <ScrollArea className="h-[250px] w-full rounded-md border p-4 mt-5 font-serif">
+  {bookDetails.description}
+</ScrollArea>
           <div className="pt-12 flex gap-5">
             <Link to={`/edit-book/${bookId}`} className="px-4 py-2 bg-indigo-500 text-white rounded-md">
               <FaEdit />
             </Link>
             <ConfirmModal/>
           </div>
+          <button
+        className="px-4 py-2 my-2 bg-indigo-500 text-white rounded-md"
+        onClick={scrollToReviews}
+      >
+        Reviews
+      </button>
         </div>
         <div className="flex w-full justify-between text-gray-600 font-semibold">
           <p className="flex items-center gap-2">
@@ -181,6 +184,11 @@ const BookDetails = () => {
         </div>
       </div>
     </div>
+    <div ref={reviewSectionRef}>
+      <Reviews />
+    </div>
+    </div>
+   
   )
 }
 
