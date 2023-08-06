@@ -5,6 +5,7 @@ import { setLoading } from './redux/features/user/userSlice';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './lib/firebase';
 import { getUserData } from './redux/features/user/userThunk';
+import { Toaster } from './components/ui/toaster';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -25,6 +26,7 @@ function App() {
   return (
     <div>
       <MainLayout />
+      <Toaster />
     </div>
   )
 }

@@ -1,17 +1,54 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
 import { Button } from './ui/button';
 import { RiDeleteBin5Line } from "react-icons/ri"
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../redux/hook';
+import { useDeleteBookMutation } from '../redux/features/book/bookApi';
+import { useToast } from './ui/use-toast';
+import { ToastAction } from './ui/toast';
 
 const ConfirmModal = () => {
    const { bookId } = useParams();
-   const { _id:userId} = useAppSelector( state => state.user.user)
+   const { _id:userId} = useAppSelector( state => state.user.user);
+   const navigate = useNavigate();
+   const { toast } = useToast();
+
+   const [ deleteBook, {isError, isSuccess, isLoading, error}] = useDeleteBookMutation();
 
    const handleConfirm = () => {
-    
+    deleteBook({bookId, userId})
    }
+
+   useEffect(() => {
+
+    if(!isLoading && isError){
+        toast({
+            variant: "destructive",
+            title: "Failed to delete book.",
+            description: error?.data?.message,
+            duration: 2000
+          })
+       }
+
+   },[isError, isLoading])
+   useEffect(() => {
+
+    if(!isLoading && isSuccess){
+        toast({
+            variant: "destructive",
+            title: "Book deleted successfully",
+            duration: 2000
+          })
+          navigate('/')
+       }
+
+   },[isSuccess, isError, isLoading])
+
+
+
+   
+
 
     return (
         <AlertDialog>
@@ -27,7 +64,7 @@ const ConfirmModal = () => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction className="px-4 py-2 bg-red-500 hover:bg-red-500 text-white rounded-md">Continue</AlertDialogAction>
+          <AlertDialogAction className="px-4 py-2 bg-red-500 hover:bg-red-500 text-white rounded-md" onClick={handleConfirm}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

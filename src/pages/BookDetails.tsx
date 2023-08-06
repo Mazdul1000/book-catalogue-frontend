@@ -20,17 +20,21 @@ import {
 } from "../components/ui/alert-dialog"
 import { Button } from "../components/ui/button"
 import ConfirmModal from "../components/ConfirmModal"
+import { ToastAction } from "../components/ui/toast"
+import { useToast } from "../components/ui/use-toast"
+import Loader from "../components/ui/Loader"
 
 const BookDetails = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { user } = useAppSelector((state) => state.user)
   const { bookId } = useParams()
+  const { toast } = useToast()
 
   const { data, isLoading } = useGetSingleBookQuery(bookId)
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <Loader />
   }
 
   const bookDetails = data.data
@@ -46,14 +50,19 @@ const BookDetails = () => {
     if (user.wishlist && user.wishlist.includes(bookId)) {
       // If book is already in wishlist
       const updatedWishlist = user.wishlist.filter((id) => id !== bookId)
-      console.log("Book removed from wishlist")
-      console.log(updatedWishlist)
+  
       dispatch(
         addWishlist({
           userId: user._id!,
           userInfo: { wishlist: updatedWishlist },
         }),
       )
+
+      toast({
+        variant: 'destructive',
+        description: 'Removed from wishlist',
+        duration: 2000
+       })
     } else {
       // if book is not in the wishlist
       const updatedWishlist = [...(user.wishlist ?? []), bookId]
@@ -64,6 +73,13 @@ const BookDetails = () => {
           userInfo: { wishlist: updatedWishlist },
         }),
       )
+
+      toast({
+        variant: 'success',
+        description: 'Added to wishlist',
+        duration: 2000
+        
+       })
     }
   }
 

@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hook';
 import { useNavigate } from 'react-router-dom';
 import { useAddNewBookMutation } from '../redux/features/book/bookApi';
+import { useToast } from '../components/ui/use-toast';
+import Loader from '../components/ui/Loader';
 
 const AddBook = () => {
     const { user} = useAppSelector( state => state.user);
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const { toast} = useToast()
 
   const [formData, setFormData] = useState({
     title: '',
@@ -17,13 +20,33 @@ const AddBook = () => {
     publicationDate: '',
   });
 
-  const [ addBook, {isSuccess, isLoading}] = useAddNewBookMutation();
+  const [ addBook, {isSuccess, isLoading, isError, error}] = useAddNewBookMutation();
 
   useEffect(() => {
-     if(!isLoading && isSuccess){
-      navigate('/')
-     }
-  },[isSuccess, isLoading])
+
+    if(!isLoading && isError){
+        toast({
+            variant: "destructive",
+            title: "Failed to delete book.",
+            description: error?.data.message || "Something went wrong",
+            duration: 2000
+          })
+       }
+
+   },[isError, isLoading])
+   useEffect(() => {
+
+    if(!isLoading && isSuccess){
+        toast({
+            variant: "success",
+            title: "Book added successfully",
+            duration: 2000
+          })
+          navigate('/')
+       }
+
+   },[isSuccess, isError, isLoading])
+
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
@@ -43,7 +66,7 @@ const AddBook = () => {
   };
 
   if(isLoading){
-    return <div>Loading...</div>
+    return <Loader />
   }
 
   return (

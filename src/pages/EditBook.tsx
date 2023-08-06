@@ -3,6 +3,8 @@ import { useAppDispatch, useAppSelector } from "../redux/hook"
 import { useNavigate, useParams } from "react-router-dom"
 import { useEditBookMutation, useGetSingleBookQuery } from "../redux/features/book/bookApi"
 import { useForm } from "react-hook-form"
+import { useToast } from "../components/ui/use-toast"
+import Loader from "../components/ui/Loader"
 
 const EditBook = () => {
   const { bookId } = useParams()
@@ -10,6 +12,7 @@ const EditBook = () => {
   const { user } = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const { toast } = useToast();
 
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
@@ -33,7 +36,7 @@ const EditBook = () => {
     }
   }, [data, setValue])
 
-    const [editBook, { isSuccess, isLoading: isEditLoading }] = useEditBookMutation();
+    const [editBook, { isSuccess, isLoading: isEditLoading , isError, error}] = useEditBookMutation();
 
   const onSubmit = (formData: any) => {
     const updatedFormData = { ...formData, addedBy: user._id }
@@ -47,8 +50,35 @@ const EditBook = () => {
       });
   }
 
+//   Notify the success or failure
+useEffect(() => {
+
+    if(!isLoading && isError){
+        toast({
+            variant: "destructive",
+            title: "Failed to delete book.",
+            description: error?.data?.message || "Something went wrong",
+            duration: 2000
+          })
+       }
+
+   },[isError, isLoading])
+
+useEffect(() => {
+
+    if(!isLoading && isSuccess){
+        toast({
+            variant: "success",
+            title: "Book information updated successfully",
+            duration: 2000
+          })
+          navigate(`/books/${bookId}`)
+       }
+
+   },[isSuccess, isLoading])
+
   if (isLoading) {
-    return <div>Loading...</div>
+    return <Loader />;
   }
 
   return (

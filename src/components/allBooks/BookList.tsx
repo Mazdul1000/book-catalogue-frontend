@@ -4,6 +4,7 @@ import Footer from '../../layouts/Footer';
 import { IBook } from '../home/bookGrid/BookGrid';
 import { Link } from 'react-router-dom';
 import { useGetBooksQuery } from '../../redux/features/book/bookApi';
+import Loader from '../ui/Loader';
 
 const BookList = () => {
     const filter = useAppSelector( state => state.filter)
@@ -14,10 +15,12 @@ const BookList = () => {
     ...(filter.publicationDate && { publicationDate: filter.publicationDate }),
   };
 
-    const {data, isLoading} = useGetBooksQuery(truthyFilter);
+    const {data, isLoading} = useGetBooksQuery(truthyFilter,{
+      refetchOnMountOrArgChange: true
+    });
 
     if(isLoading){
-        return <div>Loading...</div>
+        return <Loader />
     }
 
     return (
