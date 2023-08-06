@@ -13,6 +13,8 @@ import Loader from "../components/ui/Loader"
 import { ScrollArea } from "../components/ui/scroll-area"
 import Reviews from "../components/Reviews"
 import Footer from "../layouts/Footer"
+import { Link as ScrollLink, Element } from "react-scroll";
+
 
 const BookDetails = () => {
   const dispatch = useAppDispatch()
@@ -20,14 +22,6 @@ const BookDetails = () => {
   const { user } = useAppSelector((state) => state.user)
   const { bookId } = useParams()
   const { toast } = useToast()
-  const reviewSectionRef = useRef(null); 
-  const scrollToReviews = () => {
-    reviewSectionRef.current.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
-  };
-
   const { data, isLoading } = useGetSingleBookQuery(bookId)
 
   if (isLoading) {
@@ -161,12 +155,18 @@ const BookDetails = () => {
             </Link>
             <ConfirmModal/>
           </div>}
-          <button
+     <div className=" py-4">
+     <ScrollLink
+       activeClass="active"
+       to="reviewsSection"
+       spy={true}
+       smooth={true}
+       duration={500}
         className="px-4 py-2 my-2 bg-indigo-500 text-white rounded-md hover:bg-gray-100 hover:border hover:text-black"
-        onClick={scrollToReviews}
       >
         Reviews
-      </button>
+      </ScrollLink>
+     </div>
         </div>
         <div className="flex w-full justify-between text-gray-600 font-semibold">
           <p className="flex items-center gap-2">
@@ -182,8 +182,10 @@ const BookDetails = () => {
         </div>
       </div>
     </div>
-    <div ref={reviewSectionRef}>
+    <div>
+    <Element name="reviewsSection" id="reviewsSection">
       <Reviews />
+      </Element>
     </div>
     </div>
     <Footer />

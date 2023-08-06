@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAddNewBookMutation } from '../redux/features/book/bookApi';
 import { useToast } from '../components/ui/use-toast';
 import Loader from '../components/ui/Loader';
+import { MyCustomError } from '../components/ConfirmModal';
 
 const AddBook = () => {
     const { user} = useAppSelector( state => state.user);
@@ -23,12 +24,12 @@ const AddBook = () => {
   const [ addBook, {isSuccess, isLoading, isError, error}] = useAddNewBookMutation();
 
   useEffect(() => {
-
+    const fetchBaseQueryError = error as MyCustomError; // Type assertion
     if(!isLoading && isError){
         toast({
             variant: "destructive",
             title: "Failed to delete book.",
-            description: error?.data.message || "Something went wrong",
+            description: fetchBaseQueryError?.data.message || "Something went wrong",
             duration: 2000
           })
        }

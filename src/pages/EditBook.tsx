@@ -5,6 +5,7 @@ import { useEditBookMutation, useGetSingleBookQuery } from "../redux/features/bo
 import { useForm } from "react-hook-form"
 import { useToast } from "../components/ui/use-toast"
 import Loader from "../components/ui/Loader"
+import { MyCustomError } from "../components/ConfirmModal"
 
 const EditBook = () => {
   const { bookId } = useParams()
@@ -54,10 +55,11 @@ const EditBook = () => {
 useEffect(() => {
 
     if(!isLoading && isError){
+      const fetchBaseQueryError = error as MyCustomError; // Type assertion
         toast({
             variant: "destructive",
             title: "Failed to edit book.",
-            description: error?.data?.message || "Something went wrong",
+            description: fetchBaseQueryError?.data?.message || "Something went wrong",
             duration: 2000
           })
        }

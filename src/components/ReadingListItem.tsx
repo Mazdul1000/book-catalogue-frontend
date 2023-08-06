@@ -78,7 +78,7 @@ const ReadingListItem: React.FC<ListItemProps> = ({book:{title, author, genre, _
             <input
               type="checkbox"
               onChange={handleToggleFinish}
-              checked={user.finished?.includes(bookId)}
+              checked={user.finished?.includes(bookId.toString())}
               className="form-checkbox text-primary-main h-5 w-5"
             />
           </div>

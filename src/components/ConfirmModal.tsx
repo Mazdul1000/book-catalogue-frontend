@@ -6,7 +6,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../redux/hook';
 import { useDeleteBookMutation } from '../redux/features/book/bookApi';
 import { useToast } from './ui/use-toast';
-import { ToastAction } from './ui/toast';
+
+export type MyCustomError = {
+  status: number;
+  data: {
+    message: string;
+  };
+};
+
 
 const ConfirmModal = () => {
    const { bookId } = useParams();
@@ -21,17 +28,19 @@ const ConfirmModal = () => {
    }
 
    useEffect(() => {
+    if (!isLoading && isError) {
+      const fetchBaseQueryError = error as MyCustomError; // Type assertion
+      toast({
+        variant: "destructive",
+        title: "Failed to delete book.",
+        description: fetchBaseQueryError.data?.message,
+        duration: 2000
+      });
+    }
+  }, [isError, isLoading]);
+  
+  
 
-    if(!isLoading && isError){
-        toast({
-            variant: "destructive",
-            title: "Failed to delete book.",
-            description: error?.data?.message,
-            duration: 2000
-          })
-       }
-
-   },[isError, isLoading])
    useEffect(() => {
 
     if(!isLoading && isSuccess){
