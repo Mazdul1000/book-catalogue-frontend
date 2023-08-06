@@ -125,7 +125,7 @@ const BookDetails = () => {
         </div>
         <div className="w-full flex justify-center gap-5 pt-3">
           <button
-            className="px-4 py-2 bg-blue-500 text-white rounded-md"
+            className="px-4 py-2 bg-blue-500 hover:bg-gray-100 hover:border hover:text-black text-white rounded-md"
             onClick={handleAddToWishlist}
           >
             {" "}
@@ -134,7 +134,7 @@ const BookDetails = () => {
               : "Add to wishlist"}
           </button>
           <button
-            className="px-4 py-2 bg-green-500 text-white rounded-md"
+            className="px-4 py-2 bg-green-500 hover:bg-gray-100 hover:border hover:text-black text-white rounded-md"
             onClick={handleAddToReadlist}
           >
             {user.readingList?.includes(bookDetails._id)
@@ -155,14 +155,14 @@ const BookDetails = () => {
           <ScrollArea className="h-[250px] w-full rounded-md border p-4 mt-5 font-serif">
   {bookDetails.description}
 </ScrollArea>
-          <div className="pt-12 flex gap-5">
-            <Link to={`/edit-book/${bookId}`} className="px-4 py-2 bg-indigo-500 text-white rounded-md">
+          {user.email && <div className="pt-12 flex gap-5">
+            <Link to={`/edit-book/${bookId}`} className="px-4 py-2 bg-indigo-500 flex justify-center items-center hover:bg-gray-100 hover:border hover:text-black text-white rounded-md">
               <FaEdit />
             </Link>
             <ConfirmModal/>
-          </div>
+          </div>}
           <button
-        className="px-4 py-2 my-2 bg-indigo-500 text-white rounded-md"
+        className="px-4 py-2 my-2 bg-indigo-500 text-white rounded-md hover:bg-gray-100 hover:border hover:text-black"
         onClick={scrollToReviews}
       >
         Reviews

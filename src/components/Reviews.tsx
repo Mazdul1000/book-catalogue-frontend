@@ -3,6 +3,7 @@ import { Button } from './ui/button';
 import { useAddReviewMutation, useGetAllReviewsQuery } from '../redux/features/review/reviewApi';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../redux/hook';
+import { useToast } from './ui/use-toast';
 
 type IReview = {
     _id: string;
@@ -20,9 +21,18 @@ const Reviews = () => {
     const { user} = useAppSelector( state => state.user);
     const [ addReview, {isSuccess}] = useAddReviewMutation();
     const { data, isLoading, isError, refetch} = useGetAllReviewsQuery(bookId);
+    const { toast } = useToast();
 
   
     const handleSubmitReview = () => {
+      if(!user.email){
+        toast({
+          variant: "destructive",
+          description: "Please login first"
+        })
+        setNewReview('')
+        return;
+      }
       if (newReview.trim() === '') {
         return;
       }
@@ -62,7 +72,7 @@ const Reviews = () => {
           />
           <Button
             variant= "default"
-            className="mt-2 py-2 px-4 bg-primary-main border bg-indigo-500 hover:bg-indigo-700 text-white  font-semibold"
+            className="mt-2 py-2 px-4 bg-primary-main border bg-indigo-500 hover:bg-gray-100 hover:border hover:text-black text-white  font-semibold"
             onClick={handleSubmitReview}
           >
             Add Review
@@ -71,11 +81,9 @@ const Reviews = () => {
 
         {/* List of reviews */}
         <div className="grid gap-4">
-          {/* Mapping through reviews */}
           {data.data.map((review:IReview) => (
             <div key={review._id} className="flex w-1/2 shadow-[inset_-12px_-8px_40px_#46464620] bg-indigo-100 p-4 rounded-lg">
             <div className="mr-4">
-              {/* Assuming avatar image */}
               <img src={review.user.avatar} alt={review.user.username} className="w-12 h-12 rounded-full" />
             </div>
             <div className="flex-grow">
@@ -84,6 +92,9 @@ const Reviews = () => {
             </div>
           </div>
           ))}
+          { data.data.length === 0 && <div>
+            <p className='text-lg font-bold pl-5'>No reviews</p>
+             </div>}
         </div>
       </div>
     );

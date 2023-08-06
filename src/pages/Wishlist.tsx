@@ -5,6 +5,7 @@ import { IBook } from '../components/home/bookGrid/BookGrid';
 import Footer from '../layouts/Footer';
 import { Link } from 'react-router-dom';
 import Loader from '../components/ui/Loader';
+import empty_svg from "../assets/empty.svg"
 
 const Wishlist = () => {
     const {user} = useAppSelector( state => state.user);
@@ -63,7 +64,18 @@ const Wishlist = () => {
               </tr>
             ))}
           </tbody>
+       
         </table>
+        {data.data.wishlist.length === 0 && (
+          <div>
+            <div className="flex items-center justify-center pt-12">
+              <div className="">
+                <img src={empty_svg} alt="Loading" className="h-60 w-60" />
+                <p className="text-center text-2xl py-3">List is empty</p>
+              </div>
+            </div>
+          </div>
+        )}
         <div className='fixed bottom-0 w-full'>
         <Footer />
         </div>
