@@ -15,7 +15,6 @@ const AddBook = () => {
     thumbnail: '',
     description: '',
     publicationDate: '',
-    addedBy: user.userId
   });
 
   const [ addBook, {isSuccess, isLoading}] = useAddNewBookMutation();
@@ -37,7 +36,7 @@ const AddBook = () => {
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     console.log(formData)
-    const updatedFormData = {...formData, addedBy: "64980001d170fa3a134eea01"}
+    const updatedFormData = {...formData, addedBy: user._id}
 
     addBook(updatedFormData)
   

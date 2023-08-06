@@ -17,8 +17,6 @@ const ReadingList = () => {
         return <Loader />
     }
 
-    console.log(data)
-
     return (
           <div>
       <div className='py-10'>

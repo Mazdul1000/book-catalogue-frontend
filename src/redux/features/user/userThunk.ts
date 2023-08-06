@@ -43,7 +43,7 @@ export const createUser = createAsyncThunk(
         }
   
         const userInfo = await userInfoResponse.json()
-        // Return both user and userInfo
+
         return userInfo.data
       } catch (error) {
         throw error
@@ -67,8 +67,6 @@ export const createUser = createAsyncThunk(
   
         const userInfo = await userInfoResponse.json()
   
-        console.log(userInfo)
-        // Return both user and userInfo
         return userInfo.data
       } catch (error) {
         throw error
