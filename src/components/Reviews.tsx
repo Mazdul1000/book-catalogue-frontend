@@ -25,7 +25,8 @@ const Reviews = () => {
     const { toast } = useToast();
 
   
-    const handleSubmitReview = () => {
+    const handleSubmitReview = (event: { preventDefault: () => void; }) => {
+      event.preventDefault();
       if(!user.email){
         toast({
           variant: "destructive",
@@ -49,6 +50,10 @@ const Reviews = () => {
     addReview(data)
     .unwrap()
     .then(() => {
+      toast({
+        variant: "success",
+        description: "Review submitted successfully"
+      })
       refetch();
       setNewReview('');
     })
@@ -62,25 +67,24 @@ const Reviews = () => {
     return (
         <div className="mt-8 p-12">
         <h2 className="text-xl font-semibold mb-4">Reviews</h2>
-        {/* Add new review */}
-        <div className="mb-4 flex justify-start items-center gap-3">
-          <textarea
-            className="w-1/2 resize-none px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary-main"
-            placeholder="Write a review..."
-            value={newReview}
-            rows={2}
-            onChange={(e) => setNewReview(e.target.value)}
-          />
+  
+        <form className="mb-4 flex justify-start items-center gap-3" onSubmit={handleSubmitReview}>
+        <input
+    type="text"
+    className="w-1/2 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary-main"
+    placeholder="Write a review..."
+    value={newReview}
+    onChange={(e) => setNewReview(e.target.value)}
+  />
           <Button
             variant= "default"
             className="mt-2 py-2 px-4 bg-primary-main border bg-indigo-500 hover:bg-gray-100 hover:border hover:text-black text-white  font-semibold"
-            onClick={handleSubmitReview}
+            type='submit'
           >
             Add Review
           </Button>
-        </div>
+        </form>
 
-        {/* List of reviews */}
         <div className="grid gap-4">
           {data.data.map((review:IReview) => (
             <div key={review._id} className="flex w-1/2 shadow-[inset_-12px_-8px_40px_#46464620] bg-indigo-100 p-4 rounded-lg">

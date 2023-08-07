@@ -91,24 +91,33 @@ const BookDetails = () => {
     if (user.readingList && user.readingList.includes(bookId)) {
       // Book is already in the readlist
       const updatedReadlist = user.readingList.filter((id) => id !== bookId)
-      console.log("Book removed from wishlist")
-      console.log(updatedReadlist)
       dispatch(
         addToReadList({
           userId: user._id!,
           userInfo: { readingList: updatedReadlist },
         }),
       )
+      toast({
+        variant: 'destructive',
+        description: 'Removed from the readlist',
+        duration: 2000
+        
+       })
     } else {
       // if book is not in the readlist
       const updatedReadlist = [...(user.readingList ?? []), bookId]
-      console.log("Book added to wishlist")
       dispatch(
         addToReadList({
           userId: user._id!,
           userInfo: { readingList: updatedReadlist },
         }),
       )
+      toast({
+        variant: 'success',
+        description: 'Added to readlist',
+        duration: 2000
+        
+       })
     }
   }
 
