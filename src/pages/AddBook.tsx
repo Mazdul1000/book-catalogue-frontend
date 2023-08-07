@@ -28,7 +28,7 @@ const AddBook = () => {
     if(!isLoading && isError){
         toast({
             variant: "destructive",
-            title: "Failed to delete book.",
+            title: "Failed to add book.",
             description: fetchBaseQueryError?.data.message || "Something went wrong",
             duration: 2000
           })

@@ -10,12 +10,15 @@ import { useAppDispatch, useAppSelector } from '../redux/hook';
 import { signOut } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { logout } from '../redux/features/user/userSlice';
+import { Button } from '../components/ui/button';
+import { useToast } from '../components/ui/use-toast';
 
 
 
 const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const dispatch = useAppDispatch()
+  const { toast } = useToast();
   const { user, isLoading } = useAppSelector( state => state.user)
   const toggleMenu = () => {
     setMenuOpen((prevState) => !prevState);
@@ -24,6 +27,11 @@ const Navbar = () => {
   const handleLogout = () => {
     signOut(auth).then(() => {
       dispatch(logout());
+      toast({
+        variant: "success",
+        description: "Login in successful",
+        duration: 2000
+      })
     })
   }
 
@@ -35,9 +43,9 @@ const Navbar = () => {
     <nav className="bg-indigo-600 p-4">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center">
-         <Link to={'/'}>
-         <span className="text-white font-bold text-xl flex items-center">
-            <FaBook className="inline mr-2 text-2xl" />
+         <Link to={'/'} className='transform -skew-x-12'>
+         <span className="text-white font-bold text-2xl font-mono">
+     
             BookQuest
           </span>
          </Link>
@@ -80,7 +88,7 @@ const Navbar = () => {
           <DropdownMenu>
                   <DropdownMenuTrigger className="outline-none">
                     <Avatar>
-                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarImage src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" />
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                   </DropdownMenuTrigger>
@@ -112,15 +120,26 @@ const Navbar = () => {
         </div>
       </div>
       {isMenuOpen && (
-        <div className="md:hidden">
+        <div className="md:hidden pl-8">
           <Link to="/" className="block text-white my-2">
-            <FaHome className="inline mr-2" />
+       
             Home
           </Link>
           <Link to="/" className="block text-white my-2">
-            <GiBookshelf className="inline mr-2" />
+       
            <span> All Books</span>
           </Link>
+      { !user.email && <>
+        <Link to="/login" className="block text-white my-2">
+           <span> Login</span>
+          </Link>
+          <Link to="/signup" className="block text-white my-2">        
+           <span> Signup</span>
+          </Link>
+      </> }
+         {user.email && <button className="block text-white my-2" onClick={handleLogout}>         
+           <span> Logout</span>
+          </button>}
         </div>
       )}
     </nav>
