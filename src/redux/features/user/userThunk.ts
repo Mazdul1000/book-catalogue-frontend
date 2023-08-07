@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import {
   createUserWithEmailAndPassword,
+  deleteUser,
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth"
@@ -44,11 +45,13 @@ export const createUser = createAsyncThunk(
       if (!userInfoResponse.ok) {
         throw new Error("Failed to create user information")
       }
-
       const userInfo = await userInfoResponse.json()
-
       return userInfo.data
     } catch (error) {
+      const user = auth.currentUser
+      if (user?.email) {
+        deleteUser(user)
+      }
       throw error
     }
   },

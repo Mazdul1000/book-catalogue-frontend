@@ -9,7 +9,6 @@ import { Toaster } from './components/ui/toaster';
 
 function App() {
   const dispatch = useAppDispatch();
-
   useEffect(() => {
     dispatch(setLoading(true))
   },[])
