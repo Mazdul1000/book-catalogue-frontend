@@ -6,6 +6,7 @@ import Loader from '../components/ui/Loader';
 import { loginUser } from '../redux/features/user/userThunk';
 import { useToast } from '../components/ui/use-toast';
 import backgroundImage from "../assets/header-bg.jpg"
+import { Toaster } from '../components/ui/toaster';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -17,8 +18,18 @@ const Login = () => {
     password: '',
   });
 
-  const { user, isLoading} = useAppSelector(state => state.user);
-
+  const { user, isLoading, isError, error} = useAppSelector(state => state.user);
+ 
+  useEffect(()=> {
+    if(!isLoading && isError){
+      console.log("Login failed")
+      toast({
+        variant: "destructive",
+        title: "Login in failed",
+        description: error
+      })
+    }
+  }, [isLoading, isError, error])
   
 
   useEffect(() => {
@@ -122,6 +133,7 @@ if(isLoading){
         </button>
       </form>
     </div>
+    <Toaster />
     </div>
   );
 };

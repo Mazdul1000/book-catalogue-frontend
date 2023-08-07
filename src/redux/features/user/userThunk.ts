@@ -25,7 +25,7 @@ export const createUser = createAsyncThunk(
       const user = userData.user
       await updateProfile(user, { displayName: username })
       const userInfoResponse = await fetch(
-        "https://book-catalogue-backend-kcv46f38k-mazdul1000.vercel.app/api/v1/auth/signup",
+        "https://book-catalogue-backend-ten.vercel.app/api/v1/auth/signup",
         {
           method: "POST",
           headers: {
@@ -68,7 +68,7 @@ export const loginUser = createAsyncThunk(
         throw new Error("Failed to create user information")
       }
       const userInfoResponse = await fetch(
-        `https://book-catalogue-backend-kcv46f38k-mazdul1000.vercel.app/api/v1/auth/login/${userId}`,
+        `https://book-catalogue-backend-ten.vercel.app/api/v1/auth/login/${userId}`,
       )
 
       const userInfo = await userInfoResponse.json()
@@ -84,7 +84,7 @@ export const getUserData = createAsyncThunk(
   "user/getUserData",
   async (userId: string) => {
     const userInfoResponse = await fetch(
-      `https://book-catalogue-backend-kcv46f38k-mazdul1000.vercel.app/api/v1/auth/login/${userId}`,
+      `https://book-catalogue-backend-ten.vercel.app/api/v1/auth/login/${userId}`,
     )
 
     const userInfo = await userInfoResponse.json()
@@ -103,7 +103,7 @@ export const addWishlist = createAsyncThunk(
     console.log(data)
     try {
       const userInfoResponse = await fetch(
-        `https://book-catalogue-backend-kcv46f38k-mazdul1000.vercel.app/api/v1/users/${data.userId}`,
+        `https://book-catalogue-backend-ten.vercel.app/api/v1/users/${data.userId}`,
         {
           method: "PATCH",
           headers: {
@@ -123,7 +123,7 @@ export const toggleFinished = createAsyncThunk(
   async (data: { userId: string; userInfo: object }) => {
     try {
       const userInfoResponse = await fetch(
-        `https://book-catalogue-backend-kcv46f38k-mazdul1000.vercel.app/api/v1/users/${data.userId}`,
+        `https://book-catalogue-backend-ten.vercel.app/api/v1/users/${data.userId}`,
         {
           method: "PATCH",
           headers: {
@@ -144,7 +144,7 @@ export const addToReadList = createAsyncThunk(
     console.log(data)
     try {
       const userInfoResponse = await fetch(
-        `https://book-catalogue-backend-kcv46f38k-mazdul1000.vercel.app/api/v1/users/${data.userId}`,
+        `https://book-catalogue-backend-ten.vercel.app/api/v1/users/${data.userId}`,
         {
           method: "PATCH",
           headers: {

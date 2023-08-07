@@ -79,7 +79,7 @@ useEffect(() => {
 
    },[isSuccess, isLoading])
 
-  if (isLoading) {
+  if (isLoading || isEditLoading) {
     return <Loader />;
   }
 

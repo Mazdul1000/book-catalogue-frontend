@@ -46,7 +46,7 @@ const BookGrid = () => {
     New Arrivals
     </h2>
     <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pt-10">
-      {sortedBooks
+      {data.data
       .slice(0, 10)
       .map((book: IBook) => (
         <GridItem book={book} />

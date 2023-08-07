@@ -5,6 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { createUser } from '../redux/features/user/userThunk';
 import { useToast } from '../components/ui/use-toast';
 import backgroundImage from "../assets/header-bg.jpg"
+import { Toaster } from '../components/ui/toaster';
+import Loader from '../components/ui/Loader';
 
 const SignUp = () => {
     const dispatch = useAppDispatch();
@@ -16,17 +18,28 @@ const SignUp = () => {
     password: '',
     confirmPassword: '',
   });
-  const { user, isLoading} = useAppSelector(state => state.user);
+  const { user, isLoading, isError, error} = useAppSelector(state => state.user);
   useEffect(()=> {
     if(!isLoading && user.email){
       navigate('/')
       toast({
         variant: "success",
-        description: "Login in successful",
+        description: "Registration successful",
         duration: 2000
       })
     }
   }, [user.email, isLoading])
+
+  useEffect(()=> {
+    if(!isLoading && isError){
+      console.log("Login failed")
+      toast({
+        variant: "destructive",
+        title: "sign up failed",
+        description: error
+      })
+    }
+  }, [isLoading, isError, error])
 
   const handleChange = (event: { target: { name: any; value: any; }; }) => {
     const { name, value } = event.target;
@@ -45,6 +58,10 @@ const SignUp = () => {
         }))
     }
   };
+
+  if( isLoading ) {
+    return <Loader />;
+  }
 
   return (
     <div className='flex h-screen'>
@@ -131,6 +148,7 @@ const SignUp = () => {
         </button>
       </form>
     </div>
+    <Toaster />
     </div>
   );
 };
