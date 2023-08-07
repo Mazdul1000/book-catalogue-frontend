@@ -33,7 +33,12 @@ const BookDetails = () => {
   // add to wishlist
   const handleAddToWishlist = () => {
     if (!user.email) {
-      return navigate("/login")
+      toast({
+        variant: "destructive",
+        duration: 2000,
+        description: "Please login first"
+    })
+    return
     }
     const bookId: string = bookDetails._id
 
@@ -73,7 +78,12 @@ const BookDetails = () => {
   // add to Readlist
   const handleAddToReadlist = () => {
     if (!user.email) {
-      return navigate("/login")
+      toast({
+        variant: "destructive",
+        duration: 2000,
+        description: "Please login first"
+    })
+    return
     }
 
     const bookId: string = bookDetails._id
@@ -162,7 +172,7 @@ const BookDetails = () => {
        spy={true}
        smooth={true}
        duration={500}
-        className="px-4 py-2 my-2 bg-indigo-500 text-white rounded-md hover:bg-gray-100 hover:border hover:text-black"
+        className="px-4 py-2 my-2 bg-indigo-500 text-white rounded-md hover:bg-gray-100 hover:border cursor-pointer hover:text-black"
       >
         Reviews
       </ScrollLink>

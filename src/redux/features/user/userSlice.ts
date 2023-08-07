@@ -92,30 +92,24 @@ const userSlice = createSlice({
         state.error = action.error.message!
       })
       .addCase(addWishlist.pending, (state) => {
-        state.isLoading = true
         state.isError = false
         state.error = null
       })
       .addCase(addWishlist.fulfilled, (state, action) => {
-        state.isLoading = false
         state.user = action.payload
       })
       .addCase(addWishlist.rejected, (state, action) => {
-        state.isLoading = false
         state.isError = true
         state.error = action.error.message!
       })
       .addCase(addToReadList.pending, (state) => {
-        state.isLoading = true
         state.isError = false
         state.error = null
       })
       .addCase(addToReadList.fulfilled, (state, action) => {
-        state.isLoading = false
         state.user = action.payload
       })
       .addCase(addToReadList.rejected, (state, action) => {
-        state.isLoading = false
         state.isError = true
         state.error = action.error.message!
       })
@@ -127,7 +121,6 @@ const userSlice = createSlice({
         state.user = action.payload
       })
       .addCase(toggleFinished.rejected, (state, action) => {
-        state.isLoading = false
         state.isError = true
         state.error = action.error.message!
       })

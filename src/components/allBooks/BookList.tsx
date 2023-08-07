@@ -5,6 +5,7 @@ import { IBook } from '../home/bookGrid/BookGrid';
 import { Link } from 'react-router-dom';
 import { useGetBooksQuery } from '../../redux/features/book/bookApi';
 import Loader from '../ui/Loader';
+import { format } from 'date-fns';
 
 const BookList = () => {
     const filter = useAppSelector( state => state.filter)
@@ -61,7 +62,7 @@ const BookList = () => {
                   <div className="text-sm text-gray-500">{book.genre}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-500">{book.publicationDate}</div>
+                  <div className="text-sm text-gray-500">{format(new Date(book.publicationDate), "MMMM d, yyyy")}</div>
                 </td>
               </tr>
             ))}

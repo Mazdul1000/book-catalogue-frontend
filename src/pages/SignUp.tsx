@@ -48,14 +48,18 @@ const SignUp = () => {
 
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    // TODO: Add signup logic here using the formData state
-    console.log(formData);
     if( formData.password === formData.confirmPassword){
         dispatch(createUser({
             email: formData.email,
             username: formData.username,
             password: formData.password
         }))
+    }else{
+      toast({
+        variant: "destructive",
+        duration: 2000,
+        description: "Passwords do not match"
+      })
     }
   };
 

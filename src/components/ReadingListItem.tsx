@@ -31,7 +31,7 @@ const ReadingListItem: React.FC<ListItemProps> = ({book:{title, author, genre, _
             }),
           )
           toast({
-            variant: 'destructive',
+            variant: 'success',
             description: 'Book is marked as unfinished',
             duration: 2000
            })

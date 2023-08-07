@@ -6,6 +6,7 @@ import Footer from '../layouts/Footer';
 import { Link } from 'react-router-dom';
 import Loader from '../components/ui/Loader';
 import empty_svg from "../assets/empty.svg"
+import { format } from 'date-fns';
 
 const Wishlist = () => {
     const {user} = useAppSelector( state => state.user);
@@ -59,7 +60,7 @@ const Wishlist = () => {
                   <div className="text-sm text-gray-500">{book.genre}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-500">{book.publicationDate}</div>
+                  <div className="text-sm text-gray-500">{format(new Date(book.publicationDate), "MMMM d, yyyy")}</div>
                 </td>
               </tr>
             ))}
